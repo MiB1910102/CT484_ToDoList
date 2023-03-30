@@ -41,22 +41,4 @@ class Task {
   ValueNotifier<bool> get isDoneListenable {
     return _isDone;
   }
-
-  Task copyWith({
-    String? taskId,
-    String? taskName,
-    String? description,
-    bool? isImportant,
-    DateTime? duedate,
-    bool? isDone,
-  }) {
-    return Task(
-      taskId: taskId ?? this.taskId,
-      taskName: taskName ?? this.taskName,
-      description: description ?? this.description,
-      isImportant: isImportant ?? this.isImportant,
-      duedate: duedate ?? this.duedate,
-      isDone: isDone ?? this.isDone,
-    );
-  }
 }
