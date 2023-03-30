@@ -16,8 +16,10 @@ class _TaskScreenState extends State<TaskScreen> {
   int _selectedIndex = 0;
   var _showImportantTask = false;
   var _showDonetTask = false;
+  var _showRunningTask = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,23 +60,33 @@ class _TaskScreenState extends State<TaskScreen> {
       drawer: const InfoDrawer(),
       body: Consumer<TaskManager>(
         builder: (context, taskManager, child) {
-          return TaskList(_showImportantTask, _showDonetTask);
+          return TaskList(_showImportantTask, _showDonetTask, _showRunningTask);
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue, // Màu của icon và label khi được chọn
+        unselectedItemColor: Colors.grey,
+        // Màu của icon và label khi không được chọn
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
             if (_selectedIndex == 0) {
               _showImportantTask = false;
               _showDonetTask = false;
+              _showRunningTask = false;
             } else if (_selectedIndex == 1) {
+              _showImportantTask = false;
+              _showDonetTask = false;
+              _showRunningTask = true;
+            } else if (_selectedIndex == 2) {
               _showImportantTask = true;
               _showDonetTask = false;
-            } else if (_selectedIndex == 2) {
+              _showRunningTask = false;
+            } else if (_selectedIndex == 3) {
               _showImportantTask = false;
               _showDonetTask = true;
+              _showRunningTask = false;
             }
           });
         },
@@ -85,6 +97,13 @@ class _TaskScreenState extends State<TaskScreen> {
               size: 30,
             ),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.directions_run,
+              size: 30,
+            ),
+            label: 'Running',
           ),
           BottomNavigationBarItem(
             icon: Icon(

@@ -8,7 +8,7 @@ class TaskManager with ChangeNotifier {
   List<Task> _tasks = [
     Task(
       taskId: '1',
-      taskName: 'Buy milk',
+      taskName: 'Buy milk 0',
       description: 'Đi mua sữa',
       duedate: DateTime.utc(2023, 2, 3),
       isImportant: true,
@@ -62,6 +62,10 @@ class TaskManager with ChangeNotifier {
     return _tasks.where((task) => task.isDone).toList();
   }
 
+  List<Task> get runningTask {
+    return _tasks.where((task) => !task.isDone).toList();
+  }
+
   Task? findById(String id) {
     try {
       return _tasks.firstWhere((item) => item.taskId == id);
@@ -76,9 +80,9 @@ class TaskManager with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTaskStatus(String id) {
+  void updateTaskStatus(String id, bool doneStatus) {
     final task = _tasks.firstWhere((task) => task.taskId == id);
-    task.isDone = true;
+    task.isDone = doneStatus;
     notifyListeners();
   }
 

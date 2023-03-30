@@ -9,8 +9,12 @@ import 'task_manager.dart'; // import package intl
 
 class TaskDetail extends StatefulWidget {
   final Task task;
-
-  const TaskDetail({Key? key, required this.task}) : super(key: key);
+  Function refresh;
+  TaskDetail({
+    Key? key,
+    required this.task,
+    required this.refresh,
+  }) : super(key: key);
 
   @override
   State<TaskDetail> createState() => _TaskDetailState();
@@ -25,6 +29,13 @@ class _TaskDetailState extends State<TaskDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.reply),
+          onPressed: () {
+            widget.refresh();
+            Navigator.pop(context);
+          },
+        ),
         title: Text(
           'Task Details',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -102,7 +113,7 @@ class _TaskDetailState extends State<TaskDetail> {
               onPressed: widget.task.isDone
                   ? null
                   : () {
-                      TaskManager().updateTaskStatus(widget.task.taskId);
+                      TaskManager().updateTaskStatus(widget.task.taskId, true);
                       Navigator.pop(context);
                     },
               // ignore: sort_child_properties_last
@@ -115,7 +126,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     ),
                     onPressed: () {
                       widget.task.isDone = true;
-                      Navigator.pop(context);
+                      setState(() {});
                     },
                   );
                 },
