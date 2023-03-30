@@ -1,6 +1,4 @@
 // ignore_for_file: unnecessary_string_interpolations
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todolist/models/task.dart';
@@ -84,22 +82,6 @@ class TaskManager with ChangeNotifier {
     notifyListeners();
   }
 
-  // void addTask(
-  //   String taskName,
-  //   String description,
-  //   bool isImportant,
-  //   String dueDate,
-  // ) {
-  //   final newTask = Task(
-  //     taskId: DateTime.now().toString(),
-  //     taskName: taskName,
-  //     description: description,
-  //     duedate: DateFormat('dd/MM/yyyy').parse(dueDate),
-  //     isImportant: isImportant,
-  //   );
-  //   _tasks.add(newTask);
-  //   notifyListeners();
-  // }
   void addTask(
       String taskName, String description, bool important, String dueDate) {
     Task task = Task(
@@ -109,6 +91,16 @@ class TaskManager with ChangeNotifier {
         isImportant: important,
         duedate: DateFormat('dd/MM/yyyy').parse(dueDate));
     _tasks.add(task);
+    notifyListeners();
+  }
+
+  void updateTask(String taskId, String taskName, String description,
+      bool important, String dueDate) {
+    Task task = _tasks.firstWhere((task) => task.taskId == taskId);
+    task.taskName = taskName;
+    task.description = description;
+    task.isImportant = important;
+    task.duedate = DateFormat('dd/MM/yyyy').parse(dueDate);
     notifyListeners();
   }
 }

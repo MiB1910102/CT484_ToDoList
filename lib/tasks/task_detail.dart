@@ -4,12 +4,22 @@ import 'package:flutter/material.dart';
 import '../models/task.dart';
 import 'package:intl/intl.dart';
 
+import '../shared/edit_task_modal.dart';
 import 'task_manager.dart'; // import package intl
 
-class TaskDetail extends StatelessWidget {
+class TaskDetail extends StatefulWidget {
   final Task task;
 
   const TaskDetail({Key? key, required this.task}) : super(key: key);
+
+  @override
+  State<TaskDetail> createState() => _TaskDetailState();
+}
+
+class _TaskDetailState extends State<TaskDetail> {
+  void refreshTask() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +35,16 @@ class TaskDetail extends StatelessWidget {
               Icons.edit,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return EditTaskModal(
+                      refreshTask: refreshTask, task: widget.task);
+                },
+              );
+            },
           ),
         ],
       ),
@@ -35,7 +54,7 @@ class TaskDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              task.taskName,
+              widget.task.taskName,
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -46,7 +65,7 @@ class TaskDetail extends StatelessWidget {
               color: Colors.black,
             ),
             Text(
-              'Description: ${task.description}',
+              'Description: ${widget.task.description}',
               style: TextStyle(
                 fontSize: 18.0,
               ),
@@ -54,7 +73,7 @@ class TaskDetail extends StatelessWidget {
             SizedBox(height: 16.0),
             const Divider(),
             Text(
-              'Priority: ${task.isImportant ? "High" : "Low"}',
+              'Priority: ${widget.task.isImportant ? "High" : "Low"}',
               style: TextStyle(
                 fontSize: 18.0,
               ),
@@ -62,7 +81,7 @@ class TaskDetail extends StatelessWidget {
             SizedBox(height: 16.0),
             const Divider(),
             Text(
-              'Due Date: ${DateFormat('dd/MM/yyyy').format(task.duedate)}',
+              'Due Date: ${DateFormat('dd/MM/yyyy').format(widget.task.duedate)}',
               style: TextStyle(
                 fontSize: 18.0,
               ),
@@ -70,7 +89,7 @@ class TaskDetail extends StatelessWidget {
             SizedBox(height: 16.0),
             const Divider(),
             Text(
-              'Completed: ${task.isDone ? "Done" : "Running"}',
+              'Completed: ${widget.task.isDone ? "Done" : "Running"}',
               style: TextStyle(
                 fontSize: 18.0,
               ),
@@ -78,24 +97,24 @@ class TaskDetail extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: !task.isDone
+      floatingActionButton: !widget.task.isDone
           ? FloatingActionButton(
-              onPressed: task.isDone
+              onPressed: widget.task.isDone
                   ? null
                   : () {
-                      TaskManager().updateTaskStatus(task.taskId);
+                      TaskManager().updateTaskStatus(widget.task.taskId);
                       Navigator.pop(context);
                     },
               // ignore: sort_child_properties_last
               child: ValueListenableBuilder<bool>(
-                valueListenable: task.isDoneListenable,
+                valueListenable: widget.task.isDoneListenable,
                 builder: (context, isDone, child) {
                   return IconButton(
                     icon: Icon(
                       Icons.check,
                     ),
                     onPressed: () {
-                      task.isDone = true;
+                      widget.task.isDone = true;
                       Navigator.pop(context);
                     },
                   );

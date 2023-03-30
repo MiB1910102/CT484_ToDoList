@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 
 class Task {
-  final String taskId;
-  final String taskName;
-  final String description;
-  final DateTime duedate;
+  late String taskId;
+  late String taskName;
+  late String description;
+  late DateTime duedate;
   late ValueNotifier<bool> _isImportant;
   late ValueNotifier<bool> _isDone;
 
@@ -40,5 +40,23 @@ class Task {
 
   ValueNotifier<bool> get isDoneListenable {
     return _isDone;
+  }
+
+  Task copyWith({
+    String? taskId,
+    String? taskName,
+    String? description,
+    bool? isImportant,
+    DateTime? duedate,
+    bool? isDone,
+  }) {
+    return Task(
+      taskId: taskId ?? this.taskId,
+      taskName: taskName ?? this.taskName,
+      description: description ?? this.description,
+      isImportant: isImportant ?? this.isImportant,
+      duedate: duedate ?? this.duedate,
+      isDone: isDone ?? this.isDone,
+    );
   }
 }
