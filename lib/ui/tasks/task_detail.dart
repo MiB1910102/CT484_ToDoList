@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:flutter/material.dart';
-import '../models/task.dart';
+import '../../models/task.dart';
 import 'package:intl/intl.dart';
 
 import '../shared/edit_task_modal.dart';
@@ -92,7 +92,7 @@ class _TaskDetailState extends State<TaskDetail> {
             SizedBox(height: 16.0),
             const Divider(),
             Text(
-              'Due Date: ${DateFormat('dd/MM/yyyy').format(widget.task.duedate)}',
+              'Due Date: ${widget.task.duedate}',
               style: TextStyle(
                 fontSize: 18.0,
               ),
@@ -113,7 +113,7 @@ class _TaskDetailState extends State<TaskDetail> {
               onPressed: widget.task.isDone
                   ? null
                   : () {
-                      TaskManager().updateTaskStatus(widget.task.taskId, true);
+                      TaskManager().updateTaskStatus(widget.task.taskId!, true);
                       Navigator.pop(context);
                     },
               // ignore: sort_child_properties_last

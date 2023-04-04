@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
 
 class Task {
-  late String taskId;
+  late String? taskId;
   late String taskName;
   late String description;
-  late DateTime duedate;
+  late String duedate;
   late ValueNotifier<bool> _isImportant;
   late ValueNotifier<bool> _isDone;
 
   Task({
-    required this.taskId,
+    this.taskId,
     required this.taskName,
     required this.description,
     required this.duedate,
@@ -40,5 +40,45 @@ class Task {
 
   ValueNotifier<bool> get isDoneListenable {
     return _isDone;
+  }
+
+  Task copyWith({
+    String? taskId,
+    String? taskName,
+    String? description,
+    String? duedate,
+    bool? isImportant,
+    bool? isDone,
+  }) {
+    return Task(
+      taskId: taskId ?? this.taskId,
+      taskName: taskName ?? this.taskName,
+      description: description ?? this.description,
+      duedate: duedate ?? this.duedate,
+      isImportant: isImportant ?? this.isImportant,
+      isDone: isDone ?? this.isDone,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'taskId': taskId,
+      'taskName': taskName,
+      'description': description,
+      'duetime': duedate,
+      'isImportant': isImportant,
+      'isDone': isDone,
+    };
+  }
+
+  static Task fromJson(Map<String, dynamic> json) {
+    return Task(
+      taskId: json['taskId'],
+      taskName: json['taskName'],
+      description: json['description'],
+      duedate: json['duetime'],
+      isImportant: json['isImportant'],
+      isDone: json['isDone'],
+    );
   }
 }

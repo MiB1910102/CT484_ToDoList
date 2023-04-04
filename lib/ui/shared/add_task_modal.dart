@@ -191,7 +191,6 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                         );
                                     Navigator.pop(context);
                                   });
-                    print(isChecked);
                   },
                   child: Text('Add'),
                 ),

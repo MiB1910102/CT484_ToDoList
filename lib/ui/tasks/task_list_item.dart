@@ -5,7 +5,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/task.dart';
+import '../../models/task.dart';
 import 'task_manager.dart';
 import 'task_detail.dart'; // Import the task detail page
 
@@ -47,6 +47,7 @@ class _TaskListItemState extends State<TaskListItem> {
           child: GestureDetector(
             // Wrap the Text widget with GestureDetector
             onTap: () {
+              print(widget.task.taskId);
               Navigator.push(
                 // Push a new page on the navigation stack
                 context,
@@ -96,7 +97,7 @@ class _TaskListItemState extends State<TaskListItem> {
           color: Color.fromARGB(255, 75, 75, 75),
         ),
         onPressed: () {
-          context.read<TaskManager>().deleteTask(task.taskId);
+          context.read<TaskManager>().deleteTask(task.taskId!);
         },
       ),
     );
@@ -129,7 +130,7 @@ class _TaskListItemState extends State<TaskListItem> {
           color: Color.fromARGB(255, 75, 75, 75),
         ),
         onPressed: () {
-          context.read<TaskManager>().updateTaskStatus(task.taskId, false);
+          context.read<TaskManager>().updateTaskStatus(task.taskId!, false);
         },
       ),
     );

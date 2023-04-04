@@ -19,7 +19,7 @@ class _EditTaskModalState extends State<EditTaskModal> {
   final taskNameController = TextEditingController();
   final descriptionController = TextEditingController();
   final dueDateController = TextEditingController();
-  DateTime? selectedDate;
+  String? selectedDate;
   bool _isChecked = false;
   @override
   void dispose() {
@@ -35,7 +35,7 @@ class _EditTaskModalState extends State<EditTaskModal> {
     taskNameController.text = widget.task.taskName;
     descriptionController.text = widget.task.description;
     selectedDate = widget.task.duedate;
-    dueDateController.text = DateFormat('dd/MM/yyyy').format(selectedDate!);
+    dueDateController.text = selectedDate!;
     _isChecked = widget.task.isImportant;
   }
 
@@ -104,9 +104,8 @@ class _EditTaskModalState extends State<EditTaskModal> {
                     );
                     if (pickedDate != null && pickedDate != selectedDate) {
                       setState(() {
-                        selectedDate = pickedDate;
-                        dueDateController.text =
-                            DateFormat('dd/MM/yyyy').format(selectedDate!);
+                        selectedDate = pickedDate.toIso8601String();
+                        dueDateController.text = selectedDate!;
                       });
                     }
                   },
@@ -137,7 +136,7 @@ class _EditTaskModalState extends State<EditTaskModal> {
                 ElevatedButton(
                   onPressed: () {
                     context.read<TaskManager>().updateTask(
-                          widget.task.taskId,
+                          widget.task.taskId!,
                           taskNameController.text,
                           descriptionController.text,
                           _isChecked,
